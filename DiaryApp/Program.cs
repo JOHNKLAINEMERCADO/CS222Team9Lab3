@@ -1,106 +1,98 @@
 ﻿using System;
-using
 
 class Program
 {
-    private bool isRunning;
+    static void Main()
+    {
+        IDiary diary = new Diary("NormalDiary.txt");
 
-    private Diary diary;
-    Program()
-    {
-        isRunning = true;
-        diary = new Diary();
-    }
-    static void Main(string[] args)
-    {
-        Program program = new Program();
-        program.Run();
-    }
-
-    public void Run()
-    {
-        string[] options = {
-            "1. Add Diary Entry",
-            "2. View All Diary Entries",
-            "3. Search Diary Entry",
-            "4. Exit"
-        };
-        // Main Loop
         while (true)
         {
             Console.WriteLine("Welcome to the Diary App!");
-            foreach (string option in options)
-            {
-                Console.WriteLine(option);
-            }
-            char input = Console.ReadKey(true).KeyChar;
+            Console.WriteLine("1. Add Diary Entry");
+            Console.WriteLine("2. View All Diary Entries");
+            Console.WriteLine("3. Search Diary Entry");
+            Console.WriteLine("4. Exit");
+
+            Console.Write("Enter your choice: ");
+            string? input = Console.ReadLine();
 
             switch (input)
             {
-                case '1':
-                    AddDiary();
+                case "1":
+                    AddEntry(diary);
                     break;
-                case '2':
-                    ViewAllDiaryEntries();
+                case "2":
+                    ViewAllEntries(diary);
                     break;
-                case '3':
-                    SearchDiaryEntry();
+                case "3":
+                    SearchDate(diary);
                     break;
-                case '4':
-                    isRunning = false;
+                case "4":
                     Console.WriteLine("Exiting the Diary App. Goodbye!");
-                    break;
+                    return;
                 default:
+                    Console.Clear();
                     Console.WriteLine("Invalid option. Please try again.");
+                    Pause();
                     break;
             }
         }
     }
 
-    private void AddDiary()
+    static void AddEntry(IDiary diary)
     {
-        Console.WriteLine("Enter your diary entry: ");
-        string entry = Console.ReadLine();
-        // Save the entry to a file or database (not implemented in this example)
+        Console.Write("Enter your diary entry (leave empty to exit): ");
+        string? entry = Console.ReadLine();
+
+        if (entry == "" || entry == null) return;
+
         diary.WriteEntry(entry);
-        Console.WriteLine("Diary entry saved.");
-        Console.ReadKey(true);
-    }
 
-    private void ViewAllDiaryEntries()
-    {
-        DiaryEntry[] entries = diary.GetAllEntries();
-        if (entries.Length == 0)
-        {
-            Console.WriteLine("No diary entries found.");
-        }
-        else
-        {
-            foreach (DiaryEntry entry in entries)
-            {
-                Console.WriteLine($"Date: {entry.Date}, Entry: {entry.Content}");
-            }
-        }
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadKey(true);
+        Console.Clear();
+        Console.WriteLine("Entry added!");
+        Pause();
 
     }
 
-    private void SearchDiaryEntry()
+    static void ViewAllEntries(IDiary diary)
     {
-        DiaryEntry searchedEntry = null;
-        Console.WriteLine("Enter the date of the diary entry you want to search for (YYYY-MM-DD): ");
-        string date = Console.ReadLine();
-        searchedEntry = diary.SearchByDate(date);
-        if (searchedEntry != null)
+        Console.Clear();
+        Console.WriteLine("All Diary Entries");
+        Console.WriteLine("-----------------------------");
+        diary.ViewAllEntries();
+
+        Pause();
+    }
+
+    static void SearchDate(IDiary diary)
+    {
+        Console.Write("Enter the date in yyyy-mm-dd format (leave empty to exit): ");
+        string? input = Console.ReadLine();
+
+        if (input == "") return;
+
+        if (DateTime.TryParse(input, out DateTime date))
         {
-            Console.WriteLine($"Date: {searchedEntry.Date}, Entry: {searchedEntry.Content}");
+            Console.Clear();
+            Console.WriteLine($"Entries on {date.ToString("yyyy-MM-dd")}: ");
+            Console.WriteLine("-----------------------------");
+            diary.SearchByDate(date.ToString("yyyy-MM-dd"));
+            Pause();
         }
+
         else
         {
-            Console.WriteLine("No diary entry found for the specified date.");
+            Console.Clear();
+            Console.WriteLine("Enter a valid date format!");
+            Pause();
         }
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadKey(true);
+    }
+
+    static void Pause()
+    {
+        Console.Write("Press any key to continue...");
+        Console.ReadKey();
+        Console.Clear();
     }
 }
