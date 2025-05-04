@@ -1,88 +1,97 @@
-﻿using System;
-
-namespace DiaryApp;
+using System;
 
 class Program
 {
-    private bool _isRunning = true;
-    
-    Diary diary = new Diary("diary.txt");
-
-    static void Main(string[] args)
+    static void Main()
     {
-        Program program = new Program();
-        program.Run();
-    }
+        IDiary diary = new Diary("NormalDiary.txt");
 
-    public void Run()
-    {
-        string[] options = {
-            "1. Add Diary Entry",
-            "2. View All Diary Entries",
-            "3. Search Diary Entry",
-            "4. Exit"
-        };
-        // Main Loop
-        while (_isRunning)
+        while (true)
         {
             Console.WriteLine("Welcome to the Diary App!");
-            foreach (string option in options)
-            {
-                Console.WriteLine(option);
-            }
-            char input = Console.ReadKey(true).KeyChar;
+            Console.WriteLine("1. Add Diary Entry");
+            Console.WriteLine("2. View All Diary Entries");
+            Console.WriteLine("3. Search Diary Entry");
+            Console.WriteLine("4. Exit");
+
+            Console.Write("Enter your choice: ");
+            string? input = Console.ReadLine();
 
             switch (input)
             {
-                case '1':
-                    AddDiary();
+                case "1":
+                    AddEntry(diary);
                     break;
-                case '2':
-                    ViewAllDiaryEntries();
+                case "2":
+                    ViewAllEntries(diary);
                     break;
-                case '3':
-                    SearchDiaryEntry();
+                case "3":
+                    SearchDate(diary);
                     break;
-                case '4':
-                    _isRunning = false;
+                case "4":
                     Console.WriteLine("Exiting the Diary App. Goodbye!");
-                    break;
+                    return;
                 default:
+                    Console.Clear();
                     Console.WriteLine("Invalid option. Please try again.");
+                    Pause();
                     break;
             }
         }
     }
 
-    private void AddDiary()
+    static void AddEntry(IDiary diary)
     {
-        Console.WriteLine("Enter your diary entry: ");
+        Console.Write("Enter your diary entry (leave empty to exit): ");
         string? entry = Console.ReadLine();
-        
+
+        if (entry == "" || entry == null) return;
+
         diary.WriteEntry(entry);
-        
-        Console.WriteLine("Diary entry saved.");
+
+        Console.Clear();
+        Console.WriteLine("Entry added!");
         Pause();
+
     }
 
-    private void ViewAllDiaryEntries()
+    static void ViewAllEntries(IDiary diary)
     {
-        Console.WriteLine("All Diary Entries:");
+        Console.Clear();
+        Console.WriteLine("All Diary Entries");
+        Console.WriteLine("-----------------------------");
         diary.ViewAllEntries();
-        Console.WriteLine();
         Pause();
     }
 
-    private void SearchDiaryEntry()
+    static void SearchDate(IDiary diary)
     {
-        Console.WriteLine("Enter the date of the diary entry you want to search for (YYYY-MM-DD): ");
-        string? date = Console.ReadLine();
-        diary.SearchByDate(date);
-        Pause();
+        Console.Write("Enter the date in yyyy-mm-dd format (leave empty to exit): ");
+        string? input = Console.ReadLine();
+
+        if (input == "") return;
+
+        if (DateTime.TryParse(input, out DateTime date))
+        {
+            Console.Clear();
+            Console.WriteLine($"Entries on {date.ToString("yyyy-MM-dd")}: ");
+            Console.WriteLine("-----------------------------");
+            diary.SearchByDate(date.ToString("yyyy-MM-dd"));
+            Pause();
+        }
+
+        else
+        {
+            Console.Clear();
+            Console.WriteLine("Enter a valid date format!");
+            Pause();
+        }
     }
-    private void Pause()
+
+    static void Pause()
     {
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadKey(true);
+        Console.Write("Press any key to continue...");
+        Console.ReadKey();
+        Console.Clear();
     }
 }
