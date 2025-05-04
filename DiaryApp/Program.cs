@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 class Program
 {
@@ -61,7 +61,6 @@ class Program
         Console.WriteLine("All Diary Entries");
         Console.WriteLine("-----------------------------");
         diary.ViewAllEntries();
-
         Pause();
     }
 
