@@ -35,15 +35,37 @@ CS222Team9Lab3/
 │   └── .gitignore
 ├── .gitignore
 ├── DiaryProgram.sln
+├── SampleOutputs/
+│   ├── SampleOutput1.png
+│   ├── SampleOutput2.png
+│   └── SampleOutput3.png
 └── README.md
 ```
 
 
-## 📷 Sample output
+## 📷 Sample outputs
 ___
+
+### Main Menu Screenshot
+![SampleOutput1](SampleOutputs/SampleOutput1.png)
+
+### Show all Diary Entries
+![SampleOutput2](SampleOutputs/SampleOutput2.png)
+
+### Show all Diary Entries for that Date
+![SampleOutput3](SampleOutputs/SampleOutput3.png)
+
 
 ## 👨‍💻 Team members
 ___
 
+- Balagtas, Michaella
+- Mercado, John Klaine
+- Perez, Brian Kristofer
+- Saludo, Noel Zyrence
+
+
 ## 🙏 Acknowledgement
 ___
+
+Thanks to Ma'am Fatima and her materials for teaching us the principles of Object-Oriented Programming and file handling! <3
