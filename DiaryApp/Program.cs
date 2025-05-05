@@ -4,7 +4,7 @@ class Program
 {
     static void Main()
     {
-        IDiary diary = new Diary("NormalDiary.txt");
+        IDiary diary = new Diary("Diary.txt");
 
         while (true)
         {

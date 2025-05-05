@@ -2,7 +2,7 @@ using System;
 
 public interface IDiary
 {
-    void WriteEntry(string entry);
-    void SearchByDate(string date);
-    void ViewAllEntries();
+    public void WriteEntry(string entry);
+    public void SearchByDate(string date);
+    public void ViewAllEntries();
 }
