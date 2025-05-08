@@ -8,6 +8,7 @@ class Program
 
         while (true)
         {
+            Console.Clear();
             Console.WriteLine("Welcome to the Diary App!");
             Console.WriteLine("1. Add Diary Entry");
             Console.WriteLine("2. View All Diary Entries");
